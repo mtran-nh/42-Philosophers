@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:32:49 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/10/09 11:16:05 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/10/10 16:26:01 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ void	check_input(int ac, char **av)
 		else if (i == 5 && (num < 0 || num > INT_MAX))
 			error_msg("Error: Invalid argument\n", 1);
 		else if ((i != 1 && i != 5) && (num < 1 || num > INT_MAX))
-			error_msg("Error: Invalid argument", 1);
+			error_msg("Error: Invalid argument\n", 1);
 	}
 }
 
 int	main(int ac, char **av)
 {
+	pthread_mutex_t	forks[PHILO_MAX];
+	t_philos		philos[PHILO_MAX];
+
+	check_input(ac, av);
 }

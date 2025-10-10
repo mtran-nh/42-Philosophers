@@ -1,37 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/06 15:15:03 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/10/10 16:31:44 by mtran-nh         ###   ########.fr       */
+/*   Created: 2025/10/10 15:22:01 by mtran-nh          #+#    #+#             */
+/*   Updated: 2025/10/10 15:22:59 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../includes/philo.h"
 
-void	error_msg(char *msg, int ex_sign)
+int	ft_strlen(char *s)
 {
-	if (msg)
-		write(1, msg, ft_strlen(msg));
-	exit(ex_sign);
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-size_t	get_current_time(void)
+int	ft_atoi(char *s)
 {
-	struct timeval	tv;
+	int		num;
+	char	sign;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void	ft_usleep(size_t mls)
-{
-	size_t	start;
-
-	start = get_current_time();
-	while ((get_current_time() - start) > mls)
-		usleep(500);
+	sign = 1;
+	num = 0;
+	while ((*s >= 9 && *s <= 13) || *s == ' ')
+		s++;
+	if (*s == '-' || *s == '+')
+	{
+		if (*s == '-')
+			sign *= -1;
+		s++;
+	}
+	while (*s >= '0' && *s <= '9')
+		num = num * 10 + *s - '0';
+	return (num * sign);
 }
