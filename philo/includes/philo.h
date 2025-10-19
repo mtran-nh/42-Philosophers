@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 11:09:02 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/10/19 18:59:25 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:15:21 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int					ft_atoi(char *s);
 void				error_msg(char *msg, int ex_sign);
 size_t				get_current_time(void);
 void				ft_usleep(size_t mls);
+void				print_action(t_philos *philos, char *action);
 void				cleanup(t_philos *philos, pthread_mutex_t *forks,
 						pthread_mutex_t *print_mutex);
 

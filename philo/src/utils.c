@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:15:03 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/10/19 18:41:36 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/10/19 19:14:21 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ void	ft_usleep(size_t mls)
 	start = get_current_time();
 	while ((get_current_time() - start) < mls)
 		usleep(500);
+}
+
+void	print_action(t_philos *philos, char *action)
+{
+	size_t		time;
+
+	pthread_mutex_lock(philos->print_mutex);
+	time = get_current_time() - philos->times.start_time;
+	printf("%zu %d %s\n", time, philos->id, action);
+	pthread_mutex_unlock(philos->print_mutex);
 }
 
 void	cleanup(t_philos *philos, pthread_mutex_t *forks,
