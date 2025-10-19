@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 11:09:02 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/10/17 15:48:31 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/10/19 18:59:25 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,27 @@ typedef struct s_philos
 	pthread_mutex_t	*print_mutex;
 }					t_philos;
 
+// string.c
 int					ft_strlen(char *s);
 int					ft_atoi(char *s);
 
+// utils.c
 void				error_msg(char *msg, int ex_sign);
 size_t				get_current_time(void);
 void				ft_usleep(size_t mls);
+void				cleanup(t_philos *philos, pthread_mutex_t *forks,
+						pthread_mutex_t *print_mutex);
 
+// init.c
 void				init_fork(pthread_mutex_t *forks, int n);
+void				init_philos(t_philos *philos, pthread_mutex_t *forks,
+						pthread_mutex_t *print_mutex, char **av);
 
+// simulation.c
+void				start_simulation(t_philos *philos);
+
+// main.c
 void				check_input(int ac, char **av);
+int					main(int ac, char **av);
 
 #endif

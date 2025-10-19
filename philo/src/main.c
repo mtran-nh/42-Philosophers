@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:32:49 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/10/17 15:56:38 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/10/19 18:49:26 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int	main(int ac, char **av)
 	if (pthread_mutex_init(&print_mutex, NULL) != 0)
 		error_msg("Error: print mutex init failed", 1);
 	init_fork(forks, n);
-	init_philos(philos, forks, av);
+	init_philos(philos, forks, &print_mutex, av);
+	cleanup(philos, forks, &print_mutex);
 }
