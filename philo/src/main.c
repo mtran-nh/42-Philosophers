@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:32:49 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/10/19 18:49:26 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:39:36 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int	main(int ac, char **av)
 		error_msg("Error: print mutex init failed", 1);
 	init_fork(forks, n);
 	init_philos(philos, forks, &print_mutex, av);
+	start_simulation(philos);
 	cleanup(philos, forks, &print_mutex);
 }

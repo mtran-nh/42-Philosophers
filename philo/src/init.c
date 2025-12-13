@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 11:17:38 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/10/19 18:49:01 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:58:14 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void	init_philos(t_philos *philos, pthread_mutex_t *forks,
 {
 	int	i;
 	int	n;
+	size_t start;
 
+	start = get_current_time();
 	n = ft_atoi(av[1]);
 	i = 0;
 	while (i < n)
@@ -46,7 +48,7 @@ void	init_philos(t_philos *philos, pthread_mutex_t *forks,
 		philos[i].times.die = ft_atoi(av[2]);
 		philos[i].times.eat = ft_atoi(av[3]);
 		philos[i].times.sleep = ft_atoi(av[4]);
-		philos[i].times.start_time = get_current_time();
+		philos[i].times.start_time = start;
 		philos[i].times.last_meal = get_current_time();
 		philos[i].mutexes.left_fork = &forks[i];
 		philos[i].mutexes.right_fork = &forks[(i + 1) % n];
