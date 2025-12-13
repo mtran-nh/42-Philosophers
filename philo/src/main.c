@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:32:49 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/13 13:39:36 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/13 17:00:58 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,23 @@ void	check_input(int ac, char **av)
 
 int	main(int ac, char **av)
 {
-	int				n;
-	pthread_mutex_t	forks[PHILO_MAX];
-	t_philos		philos[PHILO_MAX];
-	pthread_mutex_t	print_mutex;
+	t_env			env;
 
 	check_input(ac, av);
-	n = ft_atoi(av[1]);
-	if (pthread_mutex_init(&print_mutex, NULL) != 0)
-		error_msg("Error: print mutex init failed", 1);
-	init_fork(forks, n);
-	init_philos(philos, forks, &print_mutex, av);
-	start_simulation(philos);
-	cleanup(philos, forks, &print_mutex);
+	init_all(ac, av);
+	start_simulation(env.philos);
+	pthread_create(&env.monitor_thread, NULL, monitor, env.philos);
+	pthread_join(env.monitor_thread, NULL);
+	cleanup(env.philos, env.forks, &env.print_mutex);
+	pthread_mutex_destroy(&env.data.dead_mutex);
+	pthread_mutex_destroy(&env.data.meal_mutex);
 }
+
+// THỨ TỰ LÀM KHUYÊN DÙNG
+
+// 1 data struct
+// 2 mutex bảo vệ last_meal
+// 3 monitor thread
+// 4 stop simulation
+// 5 eat limit
+// 6 case 1 philosopher

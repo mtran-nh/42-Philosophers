@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 18:50:44 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/13 13:39:44 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/13 16:55:36 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,8 @@ void	start_simulation(t_philos *philos)
         pthread_join(philos[i].thread_id, NULL);
         i++;
     }
+}
+
+void    monitor()
+{
 }
