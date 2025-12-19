@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 11:09:02 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/13 17:00:26 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/19 23:00:37 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,6 @@
 # include <sys/time.h>
 # include <unistd.h>
 # include <stdio.h>
-
-typedef struct s_env
-{
-	int				n;                // số philosopher
-	pthread_mutex_t	forks[PHILO_MAX];
-	pthread_mutex_t	print_mutex;
-	t_philos		philos[PHILO_MAX];
-	t_data			data;
-	pthread_t		monitor_thread;
-}	t_env;
 
 typedef struct s_data
 {
@@ -69,24 +59,40 @@ typedef struct s_philos
 	t_data			*data;
 }					t_philos;
 
+typedef struct s_env
+{
+	int				n;                // số philosopher
+	pthread_mutex_t	forks[PHILO_MAX];
+	pthread_mutex_t	print_mutex;
+	t_philos		philos[PHILO_MAX];
+	t_data			data;
+	pthread_t		monitor_thread;
+}	t_env;
+
 // string.c
 int					ft_strlen(char *s);
 int					ft_atoi(char *s);
 
 // utils.c
 void				error_msg(char *msg, int ex_sign);
-size_t				get_current_time(void);
-void				ft_usleep(size_t mls);
 void				print_action(t_philos *philos, char *action);
+void				ft_usleep(size_t mls);
 void				cleanup(t_philos *philos, pthread_mutex_t *forks,
 						pthread_mutex_t *print_mutex);
+void				set_dead_flag(t_philos *philos)
+
+//get_data.c
+size_t				get_current_time(void);
+void				update_last_meal(t_philos philo);
+size_t      		get_last_meal(t_philos *philo);
+size_t      		get_last_meal(t_philos *philo);
 
 // init.c
 void				init_data(t_data *data, int ac, char **av);
 void				init_fork(pthread_mutex_t *forks, int n);
 void				init_philos(t_philos *philos, pthread_mutex_t *forks,
 						pthread_mutex_t *print_mutex, char **av);
-void				init_all(int ac, char **av);
+t_env				init_all(int ac, char **av);
 
 // action.c
 void				take_forks(t_philos *philos);

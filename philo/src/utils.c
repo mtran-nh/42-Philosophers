@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:15:03 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/10/19 19:14:21 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/19 23:13:39 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	error_msg(char *msg, int ex_sign)
 	exit(ex_sign);
 }
 
-size_t	get_current_time(void)
+void	print_action(t_philos *philos, char *action)
 {
-	struct timeval	tv;
+	size_t		time;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	pthread_mutex_lock(philos->print_mutex);
+	time = get_current_time() - philos->times.start_time;
+	printf("%zu %d %s\n", time, philos->id, action);
+	pthread_mutex_unlock(philos->print_mutex);
 }
 
 void	ft_usleep(size_t mls)
@@ -34,16 +36,6 @@ void	ft_usleep(size_t mls)
 	start = get_current_time();
 	while ((get_current_time() - start) < mls)
 		usleep(500);
-}
-
-void	print_action(t_philos *philos, char *action)
-{
-	size_t		time;
-
-	pthread_mutex_lock(philos->print_mutex);
-	time = get_current_time() - philos->times.start_time;
-	printf("%zu %d %s\n", time, philos->id, action);
-	pthread_mutex_unlock(philos->print_mutex);
 }
 
 void	cleanup(t_philos *philos, pthread_mutex_t *forks,
@@ -57,4 +49,11 @@ void	cleanup(t_philos *philos, pthread_mutex_t *forks,
 	while (++i < n)
 		pthread_mutex_destroy(&forks[i]);
 	pthread_mutex_destroy(print_mutex);
+}
+
+void	set_dead_flag(t_philos *philos)
+{
+	pthread_mutex_lock(&philos[0].data->dead_mutex);
+	philos->data->dead = 1;
+	pthread_mutex_unlock(&philos[0].data->dead_mutex);
 }

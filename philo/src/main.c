@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:32:49 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/13 17:00:58 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/19 22:08:47 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int ac, char **av)
 	t_env			env;
 
 	check_input(ac, av);
-	init_all(ac, av);
+	env = init_all(ac, av);
 	start_simulation(env.philos);
 	pthread_create(&env.monitor_thread, NULL, monitor, env.philos);
 	pthread_join(env.monitor_thread, NULL);

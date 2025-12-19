@@ -3,28 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 18:50:44 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/13 16:55:36 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/19 23:35:38 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+//just for routine
+static int is_dead(t_philos *philo)
+{
+    int dead;
+    
+    pthread_mutex_lock(&philo->data->dead_mutex);
+    dead = philo->data->dead;
+    pthread_mutex_unlock(&philo->data->dead_mutex);
+    return dead;
+}
+
 void    *routine(void *arg)
 {
     t_philos *philo = (t_philos *)arg;
     
-    while (1)
+    while (!is_dead(philo))
     {
+        if (is_dead(philo))
+            break;
         take_forks(philo);
+        if (is_dead(philo))
+        {
+            drop_forks(philo);
+            break;
+        }
         eating(philo);
         drop_forks(philo);
+        if (is_dead(philo))
+            break;
         sleeping(philo);
+        if (is_dead(philo))
+            break;
         thinking(philo);
-        
-        // Cần thêm kiểm tra điều kiện dừng
     }
     return NULL;
 }
@@ -50,6 +70,43 @@ void	start_simulation(t_philos *philos)
     }
 }
 
-void    monitor()
+int     check_stop(t_philos *philos, int n)
 {
+    int     i;
+
+    pthread_mutex_lock(&philos[0].data->dead_mutex);
+    if (philos[0].data->dead = 1)
+    {
+        pthread_mutex_unlock(&philos[0].data->dead_mutex);
+        return (1);
+    }
+    pthread_mutex_unlock(&philos[0].data->dead_mutex);
+    i = -1;
+    while (++i < n)
+    {
+        if ((get_current_time() - get_last_meal(&philos[i])) > philos[i].times.die)
+            return (set_dead_flag(philos), print_action(&philos[i], "died"), 1);
+    }
+    if (philos[0].data->must_eat > 0)
+    {
+        i = -1;
+        while (++i < n)
+            if (get_eat_count(&philos[i]) < philos[0].data->must_eat)
+                return 0;
+        return (set_dead_flag(philos), 1);
+    }
+    return (0);
+}
+
+void    *monitor(void *arg)
+{
+    t_philos *philos = (t_philos *)arg;
+    int     n;
+    int     i;
+    
+    n = philos->philos_count;
+    
+    while (!check_stop(philos, n))
+        usleep(1000);
+    return (NULL)    
 }

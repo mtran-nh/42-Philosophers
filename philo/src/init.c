@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 11:17:38 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/13 16:59:58 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/19 22:08:41 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,12 @@ void	init_philos(t_philos *philos, pthread_mutex_t *forks,
 		philos[i].mutexes.left_fork = &forks[i];
 		philos[i].mutexes.right_fork = &forks[(i + 1) % n];
 		philos[i].print_mutex = print_mutex;
+		philos[i].data = &env.data;
 		i++;
 	}
 }
 
-void	init_all(int ac, char **av)
+t_env	init_all(int ac, char **av)
 {
 	t_env	env;
 	
@@ -80,4 +81,5 @@ void	init_all(int ac, char **av)
 		error_msg("Error: print mutex init failed", 1);
 	init_fork(env.forks, env.n);
 	init_philos(env.philos, env.forks, &env.print_mutex, av);
+	return (env);
 }
