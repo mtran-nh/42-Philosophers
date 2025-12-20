@@ -6,26 +6,17 @@
 /*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 18:50:44 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/19 23:35:38 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/20 01:11:08 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-//just for routine
-static int is_dead(t_philos *philo)
-{
-    int dead;
-    
-    pthread_mutex_lock(&philo->data->dead_mutex);
-    dead = philo->data->dead;
-    pthread_mutex_unlock(&philo->data->dead_mutex);
-    return dead;
-}
-
 void    *routine(void *arg)
 {
     t_philos *philo = (t_philos *)arg;
+    
+    printf("DEBUG routine: Philosopher %d started\n", philo->id);
     
     while (!is_dead(philo))
     {
@@ -62,12 +53,20 @@ void	start_simulation(t_philos *philos)
 			error_msg("Error: thread creation failed\n", 1);
 		i++;
 	}
-    i = 0;
-    while (i < count)
-    {
-        pthread_join(philos[i].thread_id, NULL);
-        i++;
-    }
+}
+
+void	join_threads(t_philos *philos)
+{
+	int count;
+	int i;
+
+	count = philos[0].philos_count;
+	i = 0;
+	while (i < count)
+	{
+		pthread_join(philos[i].thread_id, NULL);
+		i++;
+	}
 }
 
 int     check_stop(t_philos *philos, int n)
@@ -75,7 +74,7 @@ int     check_stop(t_philos *philos, int n)
     int     i;
 
     pthread_mutex_lock(&philos[0].data->dead_mutex);
-    if (philos[0].data->dead = 1)
+    if (philos[0].data->dead == 1)
     {
         pthread_mutex_unlock(&philos[0].data->dead_mutex);
         return (1);
@@ -102,11 +101,13 @@ void    *monitor(void *arg)
 {
     t_philos *philos = (t_philos *)arg;
     int     n;
-    int     i;
     
+    printf("DEBUG monitor: Starting\n");
     n = philos->philos_count;
     
+    printf("DEBUG monitor: n = %d\n", n);
     while (!check_stop(philos, n))
         usleep(1000);
-    return (NULL)    
+     printf("DEBUG monitor: Exiting\n");
+    return (NULL);
 }

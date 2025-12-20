@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 11:17:38 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/19 22:08:41 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/20 00:57:18 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	init_fork(pthread_mutex_t *forks, int n)
 	}
 }
 
-void	init_philos(t_philos *philos, pthread_mutex_t *forks,
-		pthread_mutex_t *print_mutex, char **av)
+void	init_philos(t_env *env, char **av)
 {
 	int	i;
 	int	n;
@@ -53,21 +52,27 @@ void	init_philos(t_philos *philos, pthread_mutex_t *forks,
 
 	start = get_current_time();
 	n = ft_atoi(av[1]);
-	i = 0;
-	while (i < n)
+	i = -1;
+	while (++i < n)
 	{
-		philos[i].id = i + 1;
-		philos[i].philos_count = n;
-		philos[i].times.die = ft_atoi(av[2]);
-		philos[i].times.eat = ft_atoi(av[3]);
-		philos[i].times.sleep = ft_atoi(av[4]);
-		philos[i].times.start_time = start;
-		philos[i].times.last_meal = get_current_time();
-		philos[i].mutexes.left_fork = &forks[i];
-		philos[i].mutexes.right_fork = &forks[(i + 1) % n];
-		philos[i].print_mutex = print_mutex;
-		philos[i].data = &env.data;
-		i++;
+		env->philos[i].id = i + 1;
+		env->philos[i].philos_count = n;
+		env->philos[i].times.die = ft_atoi(av[2]);
+		env->philos[i].times.eat = ft_atoi(av[3]);
+		env->philos[i].times.sleep = ft_atoi(av[4]);
+		env->philos[i].times.start_time = start;
+		env->philos[i].times.last_meal = get_current_time();
+		printf("DEBUG init: Philosopher %d last_meal initialized to %zu\n", 
+    i + 1, env->philos[i].times.last_meal);
+		
+		env->philos[i].mutexes.left_fork = &env->forks[i];
+		if (n == 1)
+            env->philos[i].mutexes.right_fork = NULL;
+        else
+            env->philos[i].mutexes.right_fork = &env->forks[(i + 1) % n];
+		env->philos[i].print_mutex = &env->print_mutex;
+		env->philos[i].data = &env->data;
+		env->philos[i].eat_count = 0;
 	}
 }
 
@@ -80,6 +85,6 @@ t_env	init_all(int ac, char **av)
 	if (pthread_mutex_init(&env.print_mutex, NULL) != 0)
 		error_msg("Error: print mutex init failed", 1);
 	init_fork(env.forks, env.n);
-	init_philos(env.philos, env.forks, &env.print_mutex, av);
+	init_philos(&env, av);
 	return (env);
 }

@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:32:49 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/19 22:08:47 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/20 00:51:00 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	check_input(int ac, char **av)
 			error_msg("Error: Invalid argument\n", 1);
 		else if (i == 5 && (num < 0 || num > INT_MAX))
 			error_msg("Error: Invalid argument\n", 1);
-		else if ((i != 1 && i != 5) && (num < 1 || num > INT_MAX))
+		else if ((i == 2 || i == 3 || i == 4) && (num < 1 || num > INT_MAX))
 			error_msg("Error: Invalid argument\n", 1);
 	}
 }
@@ -38,9 +38,18 @@ int	main(int ac, char **av)
 
 	check_input(ac, av);
 	env = init_all(ac, av);
+
 	start_simulation(env.philos);
+	
+
 	pthread_create(&env.monitor_thread, NULL, monitor, env.philos);
+	
 	pthread_join(env.monitor_thread, NULL);
+
+	printf("DEBUG: Monitor finished\n");
+	join_threads(env.philos);
+	printf("DEBUG: Monitor finished\n");
+	
 	cleanup(env.philos, env.forks, &env.print_mutex);
 	pthread_mutex_destroy(&env.data.dead_mutex);
 	pthread_mutex_destroy(&env.data.meal_mutex);

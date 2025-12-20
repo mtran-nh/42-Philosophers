@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 15:22:01 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/19 22:32:21 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/20 00:35:34 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_strlen(char *s)
 int	ft_atoi(char *s)
 {
 	int		num;
-	char	sign;
+	int		sign;
 
 	sign = 1;
 	num = 0;
@@ -38,6 +38,9 @@ int	ft_atoi(char *s)
 		s++;
 	}
 	while (*s >= '0' && *s <= '9')
+	{
 		num = num * 10 + *s - '0';
+		s++;
+	}
 	return (num * sign);
 }

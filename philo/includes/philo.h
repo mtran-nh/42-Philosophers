@@ -6,7 +6,7 @@
 /*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 11:09:02 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/19 23:00:37 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/20 00:28:18 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define PHILO_H
 
-# define PHILO_MAX 200
+# define PHILO_MAX 250
 
 # include <limits.h>
 # include <pthread.h>
@@ -61,7 +61,7 @@ typedef struct s_philos
 
 typedef struct s_env
 {
-	int				n;                // số philosopher
+	int				n;
 	pthread_mutex_t	forks[PHILO_MAX];
 	pthread_mutex_t	print_mutex;
 	t_philos		philos[PHILO_MAX];
@@ -79,19 +79,19 @@ void				print_action(t_philos *philos, char *action);
 void				ft_usleep(size_t mls);
 void				cleanup(t_philos *philos, pthread_mutex_t *forks,
 						pthread_mutex_t *print_mutex);
-void				set_dead_flag(t_philos *philos)
+void				set_dead_flag(t_philos *philos);
 
 //get_data.c
 size_t				get_current_time(void);
-void				update_last_meal(t_philos philo);
+void				update_last_meal(t_philos *philo);
 size_t      		get_last_meal(t_philos *philo);
-size_t      		get_last_meal(t_philos *philo);
+int		      		get_eat_count(t_philos *philo);
+int					is_dead(t_philos *philo);
 
 // init.c
 void				init_data(t_data *data, int ac, char **av);
 void				init_fork(pthread_mutex_t *forks, int n);
-void				init_philos(t_philos *philos, pthread_mutex_t *forks,
-						pthread_mutex_t *print_mutex, char **av);
+void				init_philos(t_env *env, char **av);
 t_env				init_all(int ac, char **av);
 
 // action.c
@@ -104,7 +104,9 @@ void				thinking(t_philos *philos);
 // simulation.c
 void				*routine(void *arg);
 void				start_simulation(t_philos *philos);
-void    			monitor();
+void				join_threads(t_philos *philos);
+int     			check_stop(t_philos *philos, int n);
+void    			*monitor(void *arg);
 
 // main.c
 void				check_input(int ac, char **av);
