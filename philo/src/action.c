@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:33:50 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/20 00:45:46 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/28 13:43:54 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ void        take_forks(t_philos *philos)
     {
         pthread_mutex_lock(philos->mutexes.left_fork);
         print_action(philos, "has taken a fork");
+        while (!is_dead(philos))
+            usleep(1000);  
         pthread_mutex_unlock(philos->mutexes.left_fork);
-        usleep(1000);
         return;
     }
     if (philos->id % 2 == 0)
