@@ -21,7 +21,7 @@ void	error_msg(char *msg, int ex_sign)
 
 void	print_action(t_philos *philos, char *action)
 {
-	size_t		time;
+	size_t	time;
 
 	pthread_mutex_lock(philos->print_mutex);
 	time = get_current_time() - philos->times.start_time;
@@ -41,8 +41,8 @@ void	ft_usleep(size_t mls)
 void	cleanup(t_philos *philos, pthread_mutex_t *forks,
 		pthread_mutex_t *print_mutex)
 {
-	int i;
-	int n;
+	int	i;
+	int	n;
 
 	n = philos[0].philos_count;
 	i = -1;

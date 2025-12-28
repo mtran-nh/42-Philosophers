@@ -19,10 +19,10 @@
 # include <limits.h>
 # include <pthread.h>
 # include <stddef.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <stdio.h>
 
 typedef struct s_data
 {
@@ -30,7 +30,7 @@ typedef struct s_data
 	int				must_eat;
 	pthread_mutex_t	dead_mutex;
 	pthread_mutex_t	meal_mutex;
-}	t_data;
+}					t_data;
 
 typedef struct s_mutexes
 {
@@ -67,7 +67,7 @@ typedef struct s_env
 	t_philos		philos[PHILO_MAX];
 	t_data			data;
 	pthread_t		monitor_thread;
-}	t_env;
+}					t_env;
 
 // string.c
 int					ft_strlen(char *s);
@@ -81,11 +81,11 @@ void				cleanup(t_philos *philos, pthread_mutex_t *forks,
 						pthread_mutex_t *print_mutex);
 void				set_dead_flag(t_philos *philos);
 
-//get_data.c
+// get_data.c
 size_t				get_current_time(void);
 void				update_last_meal(t_philos *philo);
-size_t      		get_last_meal(t_philos *philo);
-int		      		get_eat_count(t_philos *philo);
+size_t				get_last_meal(t_philos *philo);
+int					get_eat_count(t_philos *philo);
 int					is_dead(t_philos *philo);
 
 // init.c
@@ -104,8 +104,8 @@ void				sleeping(t_philos *philos);
 void				*routine(void *arg);
 void				start_simulation(t_philos *philos);
 void				join_threads(t_philos *philos);
-int     			check_stop(t_philos *philos, int n);
-void    			*monitor(void *arg);
+int					check_stop(t_philos *philos, int n);
+void				*monitor(void *arg);
 
 // main.c
 void				check_input(int ac, char **av);

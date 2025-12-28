@@ -24,8 +24,8 @@ int	ft_strlen(char *s)
 
 int	ft_atoi(char *s)
 {
-	int		num;
-	int		sign;
+	int	num;
+	int	sign;
 
 	sign = 1;
 	num = 0;

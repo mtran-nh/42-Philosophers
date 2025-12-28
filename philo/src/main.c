@@ -34,22 +34,16 @@ void	check_input(int ac, char **av)
 
 int	main(int ac, char **av)
 {
-	t_env			env;
+	t_env	env;
 
 	check_input(ac, av);
 	env = init_all(ac, av);
-
 	start_simulation(env.philos);
-	
-
 	pthread_create(&env.monitor_thread, NULL, monitor, env.philos);
-	
 	pthread_join(env.monitor_thread, NULL);
-
 	printf("DEBUG: Monitor finished\n");
 	join_threads(env.philos);
 	printf("DEBUG: Monitor finished\n");
-	
 	cleanup(env.philos, env.forks, &env.print_mutex);
 	pthread_mutex_destroy(&env.data.dead_mutex);
 	pthread_mutex_destroy(&env.data.meal_mutex);

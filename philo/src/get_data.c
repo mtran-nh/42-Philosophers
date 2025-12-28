@@ -28,30 +28,32 @@ void	update_last_meal(t_philos *philo)
 	pthread_mutex_unlock(&philo->data->meal_mutex);
 }
 
-size_t      get_last_meal(t_philos *philo)
+size_t	get_last_meal(t_philos *philo)
 {
-    size_t      last_meal;
-    pthread_mutex_lock(&philo->data->meal_mutex);
-    last_meal = philo->times.last_meal;
-    pthread_mutex_unlock(&philo->data->meal_mutex);
-    return (last_meal);
+	size_t	last_meal;
+
+	pthread_mutex_lock(&philo->data->meal_mutex);
+	last_meal = philo->times.last_meal;
+	pthread_mutex_unlock(&philo->data->meal_mutex);
+	return (last_meal);
 }
 
-int      get_eat_count(t_philos *philo)
+int	get_eat_count(t_philos *philo)
 {
-    int     eat_count;
-    pthread_mutex_lock(&philo->data->meal_mutex);
-    eat_count = philo->eat_count;
-    pthread_mutex_unlock(&philo->data->meal_mutex);
-    return (eat_count);
+	int	eat_count;
+
+	pthread_mutex_lock(&philo->data->meal_mutex);
+	eat_count = philo->eat_count;
+	pthread_mutex_unlock(&philo->data->meal_mutex);
+	return (eat_count);
 }
 
-int is_dead(t_philos *philo)
+int	is_dead(t_philos *philo)
 {
-    int dead;
-    
-    pthread_mutex_lock(&philo->data->dead_mutex);
-    dead = philo->data->dead;
-    pthread_mutex_unlock(&philo->data->dead_mutex);
-    return dead;
+	int	dead;
+
+	pthread_mutex_lock(&philo->data->dead_mutex);
+	dead = philo->data->dead;
+	pthread_mutex_unlock(&philo->data->dead_mutex);
+	return (dead);
 }

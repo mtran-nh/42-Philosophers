@@ -46,9 +46,9 @@ void	init_fork(pthread_mutex_t *forks, int n)
 
 void	init_philos(t_env *env, char **av)
 {
-	int	i;
-	int	n;
-	size_t start;
+	int		i;
+	int		n;
+	size_t	start;
 
 	start = get_current_time();
 	n = ft_atoi(av[1]);
@@ -64,9 +64,9 @@ void	init_philos(t_env *env, char **av)
 		env->philos[i].times.last_meal = get_current_time();
 		env->philos[i].mutexes.left_fork = &env->forks[i];
 		if (n == 1)
-            env->philos[i].mutexes.right_fork = NULL;
-        else
-            env->philos[i].mutexes.right_fork = &env->forks[(i + 1) % n];
+			env->philos[i].mutexes.right_fork = NULL;
+		else
+			env->philos[i].mutexes.right_fork = &env->forks[(i + 1) % n];
 		env->philos[i].print_mutex = &env->print_mutex;
 		env->philos[i].data = &env->data;
 		env->philos[i].eat_count = 0;
@@ -76,7 +76,7 @@ void	init_philos(t_env *env, char **av)
 t_env	init_all(int ac, char **av)
 {
 	t_env	env;
-	
+
 	env.n = ft_atoi(av[1]);
 	init_data(&env.data, ac, av);
 	if (pthread_mutex_init(&env.print_mutex, NULL) != 0)
