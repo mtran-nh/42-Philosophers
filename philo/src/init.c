@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 11:17:38 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/20 00:57:18 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/28 14:11:34 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,6 @@ void	init_philos(t_env *env, char **av)
 		env->philos[i].times.sleep = ft_atoi(av[4]);
 		env->philos[i].times.start_time = start;
 		env->philos[i].times.last_meal = get_current_time();
-		printf("DEBUG init: Philosopher %d last_meal initialized to %zu\n", 
-    i + 1, env->philos[i].times.last_meal);
-		
 		env->philos[i].mutexes.left_fork = &env->forks[i];
 		if (n == 1)
             env->philos[i].mutexes.right_fork = NULL;

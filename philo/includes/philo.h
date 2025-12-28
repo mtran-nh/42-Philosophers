@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 11:09:02 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/20 00:28:18 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/28 14:08:11 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,10 @@ void				init_philos(t_env *env, char **av);
 t_env				init_all(int ac, char **av);
 
 // action.c
-void				take_forks(t_philos *philos);
+int					take_forks(t_philos *philos);
 void				eating(t_philos *philos);
 void				drop_forks(t_philos *philos);
 void				sleeping(t_philos *philos);
-void				thinking(t_philos *philos);
 
 // simulation.c
 void				*routine(void *arg);

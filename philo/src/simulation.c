@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 18:50:44 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/20 01:11:08 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/28 14:11:14 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,10 @@ void    *routine(void *arg)
 {
     t_philos *philo = (t_philos *)arg;
     
-    printf("DEBUG routine: Philosopher %d started\n", philo->id);
-    
     while (!is_dead(philo))
     {
-        if (is_dead(philo))
+        if (!take_forks(philo))
             break;
-        take_forks(philo);
         if (is_dead(philo))
         {
             drop_forks(philo);
@@ -35,7 +32,7 @@ void    *routine(void *arg)
         sleeping(philo);
         if (is_dead(philo))
             break;
-        thinking(philo);
+        print_action(philo, "is thinking");
     }
     return NULL;
 }

@@ -6,13 +6,13 @@
 /*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:33:50 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/28 13:43:54 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2025/12/28 14:07:49 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void        take_forks(t_philos *philos)
+static int        one_philo_case(t_philos *philos)
 {
     if (philos->philos_count == 1)
     {
@@ -21,22 +21,38 @@ void        take_forks(t_philos *philos)
         while (!is_dead(philos))
             usleep(1000);  
         pthread_mutex_unlock(philos->mutexes.left_fork);
-        return;
+        return (1);
     }
+    return (0);
+}
+
+int        take_forks(t_philos *philos)
+{
+    if (one_philo_case(philos))
+        return (0);
     if (philos->id % 2 == 0)
     {
         pthread_mutex_lock(philos->mutexes.right_fork);
+        if (is_dead(philos))
+            return (pthread_mutex_unlock(philos->mutexes.right_fork), 0); 
         print_action(philos, "has taken a fork");
         pthread_mutex_lock(philos->mutexes.left_fork);
+        if (is_dead(philos)) 
+            return (drop_forks(philos), 0); 
         print_action(philos, "has taken a fork");
     }
     else
     {
         pthread_mutex_lock(philos->mutexes.left_fork);
+        if (is_dead(philos)) 
+            return (pthread_mutex_unlock(philos->mutexes.left_fork), 0); 
         print_action(philos, "has taken a fork");
         pthread_mutex_lock(philos->mutexes.right_fork);
+        if (is_dead(philos)) 
+            return (drop_forks(philos), 0); 
         print_action(philos, "has taken a fork");
     }
+    return (1);
 }
 
 void        eating(t_philos *philos)
@@ -61,9 +77,4 @@ void        sleeping(t_philos *philos)
 {
     print_action(philos, "is sleeping");
     ft_usleep(philos->times.sleep);
-}
-
-void        thinking(t_philos *philos)
-{
-    print_action(philos, "is thinking");
 }
