@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 18:50:44 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/28 14:11:14 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2026/01/01 22:08:58 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,8 @@ void	*monitor(void *arg)
 	int			n;
 
 	philos = (t_philos *)arg;
-	printf("DEBUG monitor: Starting\n");
 	n = philos->philos_count;
-	printf("DEBUG monitor: n = %d\n", n);
 	while (!check_stop(philos, n))
 		usleep(1000);
-	printf("DEBUG monitor: Exiting\n");
 	return (NULL);
 }

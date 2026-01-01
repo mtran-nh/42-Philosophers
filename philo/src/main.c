@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 15:32:49 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/28 14:11:57 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2026/01/01 22:13:24 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ int	main(int ac, char **av)
 	check_input(ac, av);
 	env = init_all(ac, av);
 	start_simulation(env.philos);
-	pthread_create(&env.monitor_thread, NULL, monitor, env.philos);
+	if (pthread_create(&env.monitor_thread, NULL, monitor, env.philos) != 0)
+        error_msg("Error: monitor thread creation failed\n", 1);
 	pthread_join(env.monitor_thread, NULL);
-	printf("DEBUG: Monitor finished\n");
 	join_threads(env.philos);
-	printf("DEBUG: Monitor finished\n");
+	usleep(1000);
 	cleanup(env.philos, env.forks, &env.print_mutex);
 	pthread_mutex_destroy(&env.data.dead_mutex);
 	pthread_mutex_destroy(&env.data.meal_mutex);

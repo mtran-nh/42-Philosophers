@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtran-nh <mtran-nh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 13:33:50 by mtran-nh          #+#    #+#             */
-/*   Updated: 2025/12/28 14:07:49 by mtran-nh         ###   ########.fr       */
+/*   Updated: 2026/01/01 22:03:26 by mtran-nh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,17 @@ void	eating(t_philos *philos)
 	ft_usleep(philos->times.eat);
 }
 
-void	drop_forks(t_philos *philos)
+void drop_forks(t_philos *philos)
 {
 	if (philos->philos_count == 1)
 	{
 		pthread_mutex_unlock(philos->mutexes.left_fork);
 		return ;
 	}
-	pthread_mutex_unlock(philos->mutexes.left_fork);
-	pthread_mutex_unlock(philos->mutexes.right_fork);
+    if (philos->mutexes.left_fork)
+        pthread_mutex_unlock(philos->mutexes.left_fork);
+    if (philos->mutexes.right_fork)
+        pthread_mutex_unlock(philos->mutexes.right_fork);
 }
 
 void	sleeping(t_philos *philos)
