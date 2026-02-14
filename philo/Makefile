@@ -6,7 +6,7 @@
 #    By: mtran-nh <mtran-nh@student.42heilbronn.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/06 11:06:46 by mtran-nh          #+#    #+#              #
-#    Updated: 2025/12/19 23:58:08 by mtran-nh         ###   ########.fr        #
+#    Updated: 2026/02/14 12:31:04 by mtran-nh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = philo
 
 CC = cc 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread 
 
 SRC_DIR = src
 INCLUDES = -I includes/
