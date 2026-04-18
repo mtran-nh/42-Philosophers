@@ -34,19 +34,19 @@ void	check_input(int ac, char **av)
 
 int	main(int ac, char **av)
 {
-	t_env	env;
+	t_env	*env;
 
 	check_input(ac, av);
 	env = init_all(ac, av);
-	start_simulation(env.philos);
-	if (pthread_create(&env.monitor_thread, NULL, monitor, env.philos) != 0)
+	start_simulation(env->philos);
+	if (pthread_create(&env->monitor_thread, NULL, monitor, env->philos) != 0)
         error_msg("Error: monitor thread creation failed\n", 1);
-	pthread_join(env.monitor_thread, NULL);
-	join_threads(env.philos);
+	pthread_join(env->monitor_thread, NULL);
+	join_threads(env->philos);
 	usleep(1000);
-	cleanup(env.philos, env.forks, &env.print_mutex);
-	pthread_mutex_destroy(&env.data.dead_mutex);
-	pthread_mutex_destroy(&env.data.meal_mutex);
+	cleanup(env->philos, env->forks, &env->print_mutex);
+	pthread_mutex_destroy(&env->data.dead_mutex);
+	pthread_mutex_destroy(&env->data.meal_mutex);
 }
 
 // THỨ TỰ LÀM KHUYÊN DÙNG
