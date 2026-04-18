@@ -80,11 +80,11 @@ t_env	*init_all(int ac, char **av)
 	env = malloc(sizeof(t_env));
 	if (!env)
 		return (NULL);
-	env.n = ft_atoi(av[1]);
-	init_data(&env.data, ac, av);
-	if (pthread_mutex_init(&env.print_mutex, NULL) != 0)
+	env->n = ft_atoi(av[1]);
+	init_data(&env->data, ac, av);
+	if (pthread_mutex_init(&env->print_mutex, NULL) != 0)
 		error_msg("Error: print mutex init failed", 1);
-	init_fork(env.forks, env.n);
-	init_philos(&env, av);
+	init_fork(env->forks, env->n);
+	init_philos(env, av);
 	return (env);
 }

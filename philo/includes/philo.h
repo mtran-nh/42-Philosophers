@@ -92,7 +92,7 @@ int					is_dead(t_philos *philo);
 void				init_data(t_data *data, int ac, char **av);
 void				init_fork(pthread_mutex_t *forks, int n);
 void				init_philos(t_env *env, char **av);
-t_env				init_all(int ac, char **av);
+t_env				*init_all(int ac, char **av);
 
 // action.c
 int					take_forks(t_philos *philos);

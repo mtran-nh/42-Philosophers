@@ -40,13 +40,14 @@ int	main(int ac, char **av)
 	env = init_all(ac, av);
 	start_simulation(env->philos);
 	if (pthread_create(&env->monitor_thread, NULL, monitor, env->philos) != 0)
-        error_msg("Error: monitor thread creation failed\n", 1);
+		error_msg("Error: monitor thread creation failed\n", 1);
 	pthread_join(env->monitor_thread, NULL);
 	join_threads(env->philos);
 	usleep(1000);
 	cleanup(env->philos, env->forks, &env->print_mutex);
 	pthread_mutex_destroy(&env->data.dead_mutex);
 	pthread_mutex_destroy(&env->data.meal_mutex);
+	free(env);
 }
 
 // THỨ TỰ LÀM KHUYÊN DÙNG
